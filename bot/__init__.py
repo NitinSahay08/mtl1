@@ -1,92 +1,41 @@
-
 import os
 import logging
-from bot.config import TG_CONFIG
-from pyrogram import Client, enums, filters
-from pyrogram.errors import RPCError
-from pyrogram.types import User
+from pyrogram import Client, enums
+from pyrogram.errors import AuthError, RPCError
 
-# Constants
-LOG_FILE = 'log.txt'
-USER_SESSION_STRING_KEY = 'tringhi'
+class TG_CONFIG:
+    api_id = 123456  # Replace with your Telegram API ID
+    api_hash = "your_api_hash_here"  # Replace with your Telegram API hash
+    session_name = "my_telegram_session"  # Replace with your desired session name
+    session_string = ""  # Replace with your Telegram session string (optional)
+    log_file = "telegram_bot.log"  # Replace with your desired log file path
 
-# Set up logging
+# Logging configuration
 logging.basicConfig(
     format="[%(asctime)s] [%(levelname)s] - %(message)s",
     datefmt="%d-%b-%y %I:%M:%S %p",
-    level=logging.INFO,
-    handlers=[logging.FileHandler(LOG_FILE), logging.StreamHandler()]
+    handlers=[logging.FileHandler(TG_CONFIG.log_file), logging.StreamHandler()],
+    level=logging.DEBUG  # Set to DEBUG for development or testing
 )
 
-# Set logging level for pyrogram
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
+# Telegram bot setup
+IS_PREMIUM_USER = False
+USER_SESSION_STRING = TG_CONFIG.session_string
 
-LOGGER = logging.getLogger(__name__)
-
-def create_client() -> Client:
+if len(USER_SESSION_STRING) != 0:
+    logging.info("Creating client from USER_SESSION_STRING")
     try:
-        client = Client(
-            'user',
+        user = Client(
+            TG_CONFIG.session_name,
             api_id=TG_CONFIG.api_id,
             api_hash=TG_CONFIG.api_hash,
-            session_string=TG_CONFIG.stringhi,
+            session_string=TG_CONFIG.session_string,
+            parse_mode=enums.ParseMode.HTML,
             no_updates=True
-        )
-        logging.info("Client created successfully")
-        
-        # Get the bot's information
-       # user: User = client.get_me()
-        #TG_CONFIG.premium = user.is_premium
-        
-        return client
-    except RPCError as e:
-        logging.error(f"Failed making client from USER_SESSION_STRING ({TG_CONFIG.stringhi}): {e}")
-        return None
-    except Exception as err:
-        logging.error(f"An error occurred: {err}")
-        
-        return None
-
-def main() -> Client:
-    if TG_CONFIG.stringhi:
-        userBot = create_client()
-        if userBot:
-            logging.info("Bot is running")
-
-            @userBot.on_message(filters.private & filters.command("start"))
-            def start_command(client: Client, message):
-                logging.info(f"Received /start command from {message.from_user.username}")
-                message.reply("Hello! I'm a bot.")
-
-            @userBot.on_message(filters.private & filters.command("help"))
-            def help_command(client: Client, message):
-                logging.info(f"Received /help command from {message.from_user.username}")
-                message.reply("This is a help message.")
-
-            @userBot.on_message(filters.private & filters.text)
-            def text_message(client: Client, message):
-                logging.info(f"Received message: {message.text}")
-                message.reply("You sent: " + message.text)
-
-            userBot.run()
-            return userBot
-        else:
-            logging.error("Bot is not running")
-            return None
-    else:
-        logging.error("USER_SESSION_STRING is empty")
-        return None
-
-
-def send_boot_message(client: Client):
-
-    print("Bot booted with Premium Account\n\n")
-
-
-
-
-
-
-if __name__ == "__main__":
-
-    main()    
+        ).start()
+        IS_PREMIUM_USER = user.me.is_premium
+    except (AuthError, RPCError) as e:
+        logging.error(f"Failed making client from USER_SESSION_STRING: {e}")
+        user = ''
+else:
+    logging.warning("No session string provided. Cannot create client.")
