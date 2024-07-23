@@ -3,6 +3,7 @@ import logging
 from pyrogram import Client, enums
 from pyrogram.errors import AuthError, RPCError
 import time
+from bot.config import TG_CONFIG
 
 LOG_FILE = 'log.txt'
 USER_SESSION_STRING_KEY = 'tringhi'
@@ -22,7 +23,7 @@ LOGGER = logging.getLogger(__name__)
 
 def main():
     IS_PREMIUM_USER = False
-    USER_SESSION_STRING = TG_CONFIG.session_string
+    USER_SESSION_STRING = TG_CONFIG.stringhi
 
     if len(USER_SESSION_STRING) != 0:
         logging.info("Creating client from USER_SESSION_STRING")
@@ -31,7 +32,7 @@ def main():
                 TG_CONFIG.session_name,
                 api_id=TG_CONFIG.api_id,
                 api_hash=TG_CONFIG.api_hash,
-                session_string=TG_CONFIG.session_string,
+                session_string=TG_CONFIG.stringhi,
                 
                 no_updates=True
             )
