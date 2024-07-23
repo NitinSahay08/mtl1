@@ -174,4 +174,4 @@ if __name__ == "__main__":
         TG_CONFIG.premium = False
         pass
 
-    app.loop.run_until_complete(())
+    app.loop.run_until_complete(main())
