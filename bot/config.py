@@ -11,6 +11,11 @@ dirName = os.path.basename(dirPath)
 class TG_CONFIG:
     api_id = 4857766
     premium = False
+    session_name = "bhootokiduniya"  # Replace with your desired session name
+
+  #  session_string = ""  # Replace with your Telegram session string (optional)
+
+    log_file = "log.txt"  # 
     api_hash = "6c3c6facf5598a4b318e138f8c407028"
     stringhi = "BQD6zg0As0jMe838fXnvcfpUgY_05uuCaDpsOnMDqd9lBe1A02aKjZPzpqzKH_u1N-53bSPJEG0t2amKfsuYIoFTaidHXSy8BKiE2VTZ-dbJ8RyU-FlV1UUo6H8D3OmOXOVRJPdB09-Og99nqklo-9ZhCt9fPNc033qT3wUjA7YZXF5AlYX6E3AbXz216tcWgKqPxOdVJ2J3lsmkjq810pcZKS4HBJFc5uAIpCZf2Gfh2Eh9ohbkPo4YuDy9uKBaf3yoK3_nxb_a7aSPzfvq1fDvYO3YmzavdWjd9dyYLIV_8ZLv0O-p6rOMbj-nySM7GqQBUsp095QeqFopkKs_z283Hl8T-AAAAABHP54rAA"
     UPSTREAM_REPO = "https://github.com/MAHESH-KADALI/Tata-play-working"
