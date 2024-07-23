@@ -4,7 +4,7 @@ import sys
 #import logging
 import asyncio
 #logger = logging.getLogger(__name__)
-
+from pyrogram.types import User
 from os import execl
 from sys import executable
 from time import sleep, time
