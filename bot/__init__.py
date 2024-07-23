@@ -3,14 +3,7 @@ import logging
 from pyrogram import Client, enums
 from pyrogram.errors import AuthError, RPCError
 
-class TG_CONFIG:
-    api_id = 123456  # Replace with your Telegram API ID
-    api_hash = "your_api_hash_here"  # Replace with your Telegram API hash
-    session_name = "my_telegram_session"  # Replace with your desired session name
-    session_string = ""  # Replace with your Telegram session string (optional)
-    log_file = "telegram_bot.log"  # Replace with your desired log file path
 
-# Logging configuration
 logging.basicConfig(
     format="[%(asctime)s] [%(levelname)s] - %(message)s",
     datefmt="%d-%b-%y %I:%M:%S %p",
