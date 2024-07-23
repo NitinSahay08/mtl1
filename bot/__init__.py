@@ -103,72 +103,18 @@ except KeyError:
 
 if __name__ == "__main__":
 
+    
+
     try:
-
-        if Config.stringhi is None:
-
-            raise KeyError
-
-        logging.info("Starting USER Session")
-
-        userBot = Client(
-
-            name="Bk-user",
-
-            session_string=Config.stringhi,
-
-            no_updates=True,
-
-        )
-
-    except KeyError:
-
-        userBot = None
-
-        logging.warning("No User Session, Default Bot session will be used")
-
-
-    if userBot:
-
-        try:
-
-            @userBot.on_message(filters.private & filters.command("start"))
-
-            def start_command(client: Client, message):
-
-                logging.info(f"Received /start command from {message.from_user.username}")
-
-                message.reply("Hello! I'm a bot.")
-
-
-            @userBot.on_message(filters.private & filters.command("help"))
-
-            def help_command(client: Client, message):
-
-                logging.info(f"Received /help command from {message.from_user.username}")
-
-                message.reply("This is a help message.")
-
-
-            @userBot.on_message(filters.private & filters.text)
-
-            def text_message(client: Client, message):
-
-                logging.info(f"Received message: {message.text}")
-
-                message.reply("You sent: " + message.text)
-
-
-            userBot.run()
-
-            send_boot_message(userBot)
-
-        except Exception as err:
-
-            logging.error(f"{err}")
-
-            TG_CONFIG.premium = False
-
-    else:
-
-        logging.error("userBot is None")
+        with userBot:
+            userBot.send_message(
+                chat_id=int(LOGCHANNEL),
+                text="Bot booted with Premium Account,\n\n  Thanks for using <a href='https://github.com/yashoswalyo/merge-bot'>this repo</a>",
+                disable_web_page_preview=True,
+            )
+            user = userBot.get_me()
+            Config. = user.is_premium
+    except Exception as err:
+        LOGGER.error(f"{err}")
+        Config.IS_PREMIUM = False
+        pass
