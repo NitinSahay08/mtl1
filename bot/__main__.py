@@ -140,5 +140,18 @@ async def main():
     await idle()
     await app.stop()
 
+
+
 if __name__ == "__main__":
-    app.loop.run_until_complete(main())
+
+    try:
+        with userBot:
+            user = userBot.get_me()
+            TG_CONFIG.premium = user.is_premium
+            logging.info("Bot booted")
+    except Exception as err:
+        logging.error(f"Error: {err}")
+        TG_CONFIG.premium = False
+        pass
+
+    app.loop.run_until_complete(())
