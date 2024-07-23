@@ -1,7 +1,6 @@
 import os
 import logging
 from pyrogram import Client, enums
-from pyrogram.errors import AuthError, RPCError
 
 LOG_FILE = 'log.txt'
 USER_SESSION_STRING_KEY = 'tringhi'
@@ -30,6 +29,6 @@ def create_client(session_string: str) -> Client:
         )
         client.start()
         return client
-    except (AuthError, RPCError) as e:
+    except Exception as e:
         logging.error(f"Failed making client from USER_SESSION_STRING: {e}")
         return None
