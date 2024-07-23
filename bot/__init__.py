@@ -1,10 +1,13 @@
 import os
 import logging
-from pyrogram import Client, filters, enums
+from bot.config import TG_CONFIG
+from pyrogram import Client, enums, filters
 from pyrogram.errors import RPCError
-import asyncio
+from pyrogram.types import User
 
+# Constants
 LOG_FILE = 'log.txt'
+USER_SESSION_STRING_KEY = 'stringhi'
 
 # Set up logging
 logging.basicConfig(
@@ -17,99 +20,56 @@ logging.basicConfig(
 # Set logging level for pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-import time
-
-from pyrogram.types import Message, User
-from bot.config import ScaryGhost
-from bot.config import TG_CONFIG as Config
-
-botStartTime = time.time()
-
-class BhootbnglaBot(Client):
-
-    def start(self):
-        super().start()
-        try:
-            self.send_message(chat_id=int(ScaryGhost.owner), text="<b>Bot Started!</b>")
-        except RPCError as err:
-            logging.error(f"Boot alert failed! Please start bot in PM: {err}")
-        return logging.info("Bot Started!")
-
-    def stop(self):
-        super().stop()
-        return logging.info("Bot Stopped!")
-
-tamtaplay = BhootbnglaBot(
-    name="Tmta-play",
-    api_id=Config.api_id,
-    api_hash=Config.api_hash,
-    bot_token=Config.bot_token,
-    workers=300,
-    app_version="Bhootbangla",
-    plugins=dict(root="bot")
-)
-
-if not os.path.exists("downloads"):
-    os.makedirs("downloads")
-
-LOGCHANNEL = ScaryGhost.log_channel
-
-try:
-    if Config.stringhi is None:
-        raise KeyError
-    logging.info("Starting USER Session")
-    userBot = Client(
-        name="tamtabot-user",
-        session_string=Config.stringhi,
-        no_updates=True,
-    )
-
-except KeyError:
-    userBot = None
-    logging.warning("No User Session, Default Bot session will be used")
+def create_client() -> Client:
+    try:
+        userBot = Client(
+            'user',
+            api_id=TG_CONFIG.api_id,
+            api_hash=TG_CONFIG.api_hash,
+            session_string=TG_CONFIG.stringhi,
+            no_updates=True
+        )
+        logging.info("Client created successfully")
+        
+        # Get the bot's information
+        user: User = userBot.get_me()
+        TG_CONFIG.premium = user.is_premium
+        
+        return userBot
+    except RPCError as e:
+        logging.error(f"Failed making client from USER_SESSION_STRING ({TG_CONFIG.stringhi}): {e}")
+        return None
+    except Exception as err:
+        logging.error(f"An error occurred: {err}")
+        TG_CONFIG.premium = False
+        return None
 
 def main():
-    """
-    Main entry point for the bot.
-    """
-    try:
+    if TG_CONFIG.stringhi:
+        userBot = create_client()
         if userBot:
-            loop = asyncio.get_event_loop()
-            loop.run_until_complete(userBot.start())
-            userBot.send_message(
-                chat_id=int(LOGCHANNEL),
-                text="Bot booted with Premium",
-                disable_web_page_preview=True,
-            )
-            user = userBot.get_me()
-            Config.premium = user.is_premium
+            logging.info("Bot is running")
+
+            @userBot.on_message(filters.private & filters.command("start"))
+            def start_command(client: Client, message):
+                logging.info(f"Received /start command from {message.from_user.username}")
+                message.reply("Hello! I'm a bot.")
+
+            @userBot.on_message(filters.private & filters.command("help"))
+            def help_command(client: Client, message):
+                logging.info(f"Received /help command from {message.from_user.username}")
+                message.reply("This is a help message.")
+
+            @userBot.on_message(filters.private & filters.text)
+            def text_message(client: Client, message):
+                logging.info(f"Received message: {message.text}")
+                message.reply("You sent: " + message.text)
+
+            userBot.run()
         else:
-            Config.premium = False
-    except Exception as err:
-        logging.error(f"Error in main function: {err}")
-        Config.premium = False
-    finally:
-        if userBot:
-            loop = asyncio.get_event_loop()
-            loop.run_until_complete(userBot.stop())
+            logging.error("Bot is not running")
+    else:
+        logging.error("USER_SESSION_STRING is empty")
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(tamtaplay.start())
-    try:
-        # Define bot commands
-        @tamtaplay.on_message(filters.command("start"))
-        def start_handler(client, message):
-            message.reply_text("Welcome to Bhootbngla Bot!")
-
-        @tamtaplay.on_message(filters.command("help"))
-        def help_handler(client, message):
-            message.reply_text("This is a help message!")
-
-        loop.run_until_complete(tamtaplay.idle())
-    except Exception as err:
-        logging.error(f"Error in bot logic: {err}")
-    finally:
-        loop.run_until_complete(tamtaplay.stop())
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
