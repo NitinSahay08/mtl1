@@ -2,33 +2,46 @@ import os
 import logging
 from pyrogram import Client, enums
 from pyrogram.errors import AuthError, RPCError
-from pyrogram.types import User
+import time
 
+#"  # Replace with your desired log file path
+
+# Logging configuration
 logging.basicConfig(
     format="[%(asctime)s] [%(levelname)s] - %(message)s",
     datefmt="%d-%b-%y %I:%M:%S %p",
     handlers=[logging.FileHandler(TG_CONFIG.log_file), logging.StreamHandler()],
-    level=logging.DEBUG  # Set to DEBUG for development or testing
+    level=logging.INFO
 )
 
-# Telegram bot setup
-IS_PREMIUM_USER = False
-USER_SESSION_STRING = TG_CONFIG.session_string
+def main():
+    IS_PREMIUM_USER = False
+    USER_SESSION_STRING = TG_CONFIG.session_string
 
-if len(USER_SESSION_STRING) != 0:
-    logging.info("Creating client from USER_SESSION_STRING")
-    try:
-        user = Client(
-            TG_CONFIG.session_name,
-            api_id=TG_CONFIG.api_id,
-            api_hash=TG_CONFIG.api_hash,
-            session_string=TG_CONFIG.stringhi,
-            
-            no_updates=True
-        ).start()
-        IS_PREMIUM_USER = user.me.is_premium
-    except (AuthError, RPCError) as e:
-        logging.error(f"Failed making client from USER_SESSION_STRING: {e}")
-        user = ''
-else:
-    logging.warning("No session string provided. Cannot create client.")
+    if len(USER_SESSION_STRING) != 0:
+        logging.info("Creating client from USER_SESSION_STRING")
+        try:
+            user = Client(
+                TG_CONFIG.session_name,
+                api_id=TG_CONFIG.api_id,
+                api_hash=TG_CONFIG.api_hash,
+                session_string=TG_CONFIG.session_string,
+                
+                no_updates=True
+            )
+            user.start()
+            IS_PREMIUM_USER = user.me.is_premium
+            logging.info("Bot started successfully")
+        except (AuthError, RPCError) as e:
+            logging.error(f"Failed making client from USER_SESSION_STRING: {e}")
+            user = ''
+    else:
+        logging.warning("No session string provided. Cannot create client.")
+        exit(1)  # Exit with error code 1 if no session string is provided
+
+    # Keep the bot running
+    while True:
+        time.sleep(1)
+
+if __name__ == "__main__":
+    main()
