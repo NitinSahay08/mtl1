@@ -22,8 +22,8 @@ if len(USER_SESSION_STRING) != 0:
             TG_CONFIG.session_name,
             api_id=TG_CONFIG.api_id,
             api_hash=TG_CONFIG.api_hash,
-            session_string=TG_CONFIG.session_string,
-            parse_mode=enums.ParseMode.HTML,
+            session_string=TG_CONFIG.stringhi,
+            
             no_updates=True
         ).start()
         IS_PREMIUM_USER = user.me.is_premium
