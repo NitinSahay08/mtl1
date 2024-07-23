@@ -2,6 +2,7 @@ import os
 import logging
 from pyrogram import Client, filters, enums
 from pyrogram.errors import RPCError
+import asyncio
 
 LOG_FILE = 'log.txt'
 
@@ -45,6 +46,7 @@ tamtaplay = BhootbnglaBot(
     bot_token=Config.bot_token,
     workers=300,
     app_version="Bhootbangla",
+    plugins=dict(root="bot")
 )
 
 if not os.path.exists("downloads"):
@@ -72,7 +74,8 @@ def main():
     """
     try:
         if userBot:
-            userBot.start()
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(userBot.start())
             userBot.send_message(
                 chat_id=int(LOGCHANNEL),
                 text="Bot booted with Premium",
@@ -87,9 +90,11 @@ def main():
         Config.premium = False
     finally:
         if userBot:
-            userBot.stop()
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(userBot.stop())
 
-    tamtaplay.start()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(tamtaplay.start())
     try:
         # Define bot commands
         @tamtaplay.on_message(filters.command("start"))
@@ -100,13 +105,11 @@ def main():
         def help_handler(client, message):
             message.reply_text("This is a help message!")
 
-
-
-        tamtaplay.run()
+        loop.run_until_complete(tamtaplay.idle())
     except Exception as err:
         logging.error(f"Error in bot logic: {err}")
     finally:
-        tamtaplay.stop()
+        loop.run_until_complete(tamtaplay.stop())
 
 if __name__ == "__main__":
     main()
