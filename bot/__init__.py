@@ -80,21 +80,7 @@ def main() -> Client:
 
 def send_boot_message(client: Client):
 
-    try:
-
-        client.send_message(
-
-            chat_id=-1001946386363,
-
-            text="Bot booted with Premium Account,\n\n  Thanks for using <a href='https://github.com/yashoswalyo/merge-bot'>this repo</a>",
-
-            disable_web_page_preview=True,
-
-        )
-
-    except Exception as err:
-
-        logging.error(f"{err}")
+    print("Bot booted with Premium Account,\n\n
 
 
 if __name__ == "__main__":
