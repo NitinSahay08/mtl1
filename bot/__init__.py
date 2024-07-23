@@ -80,7 +80,7 @@ def main() -> Client:
 
 def send_boot_message(client: Client):
 
-    print("Bot booted with Premium Account,\n\n
+    print("Bot booted with Premium Account\n\n")
 
 
 if __name__ == "__main__":
