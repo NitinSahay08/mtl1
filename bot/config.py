@@ -18,7 +18,7 @@ class TG_CONFIG:
     bot_token = "7322657051:AAH6GhXyLupk6lte-spmy8g-t6n7TAoIuZU"
     owner_id = 1996570767
     #DEVS or #OWNERS
-    sudo_users = [1596559467, -1002230874428, -1002233833025, 7011929837]
+    sudo_users = [1596559467, -1002230874428, -1002233833025, 1996570767]
     session = "maheshiassistantbot"
     max_file_size = 2000000000  # 2GB
     video_width = 1280
