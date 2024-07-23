@@ -4,15 +4,21 @@ from pyrogram import Client, enums
 from pyrogram.errors import AuthError, RPCError
 import time
 
-#"  # Replace with your desired log file path
+LOG_FILE = 'log.txt'
+USER_SESSION_STRING_KEY = 'tringhi'
 
-# Logging configuration
+# Set up logging
 logging.basicConfig(
     format="[%(asctime)s] [%(levelname)s] - %(message)s",
     datefmt="%d-%b-%y %I:%M:%S %p",
-    handlers=[logging.FileHandler(TG_CONFIG.log_file), logging.StreamHandler()],
-    level=logging.INFO
+    level=logging.INFO,
+    handlers=[logging.FileHandler(LOG_FILE), logging.StreamHandler()]
 )
+
+# Set logging level for pyrogram
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+
+LOGGER = logging.getLogger(__name__)
 
 def main():
     IS_PREMIUM_USER = False
