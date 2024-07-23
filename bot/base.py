@@ -1,5 +1,7 @@
 from bot.__init__ import create_client
 from bot.config import TG_CONFIG
+import pyrogram
+
 logging.basicConfig(
     format="[%(asctime)s] [%(levelname)s] - %(message)s",
     datefmt="%d-%b-%y %I:%M:%S %p",
