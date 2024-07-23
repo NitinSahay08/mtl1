@@ -84,37 +84,9 @@ def send_boot_message(client: Client):
 
 
 
-log_channel = TG_CONFIG.log_channel
-try:
-    if Config.stringhi is None:
-        raise KeyError
-    logging.info("Starting USER Session")
-    userBot = Client(
-        name="merge-bot-user",
-        session_string=Config.USER_SESSION_STRING,
-        no_updates=True,
-    )
-
-except KeyError:
-    userBot = None
-    logging.warning("No User Session, Default Bot session will be used")
 
 
 
 if __name__ == "__main__":
 
     
-
-    try:
-        with userBot:
-            userBot.send_message(
-                chat_id=int(LOGCHANNEL),
-                text="Bot booted with Premium Account,\n\n  Thanks for using <a href='https://github.com/yashoswalyo/merge-bot'>this repo</a>",
-                disable_web_page_preview=True,
-            )
-            user = userBot.get_me()
-            Config. = user.is_premium
-    except Exception as err:
-        LOGGER.error(f"{err}")
-        Config.IS_PREMIUM = False
-        pass
