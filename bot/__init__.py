@@ -83,6 +83,24 @@ def send_boot_message(client: Client):
     print("Bot booted with Premium Account\n\n")
 
 
+
+log_channel = TG_CONFIG.log_channel
+try:
+    if Config.stringhi is None:
+        raise KeyError
+    logging.info("Starting USER Session")
+    userBot = Client(
+        name="merge-bot-user",
+        session_string=Config.USER_SESSION_STRING,
+        no_updates=True,
+    )
+
+except KeyError:
+    userBot = None
+    logging.warning("No User Session, Default Bot session will be used")
+
+
+
 if __name__ == "__main__":
 
     try:
