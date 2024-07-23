@@ -2,7 +2,7 @@ import os
 import logging
 from pyrogram import Client, enums
 from pyrogram.errors import AuthError, RPCError
-
+from pyrogram.types import User
 
 logging.basicConfig(
     format="[%(asctime)s] [%(levelname)s] - %(message)s",
