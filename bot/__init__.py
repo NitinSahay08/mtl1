@@ -7,7 +7,7 @@ from pyrogram.types import User
 
 # Constants
 LOG_FILE = 'log.txt'
-USER_SESSION_STRING_KEY = 'stringhi'
+USER_SESSION_STRING_KEY = 'tringhi'
 
 # Set up logging
 logging.basicConfig(
@@ -20,9 +20,11 @@ logging.basicConfig(
 # Set logging level for pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+LOGGER = logging.getLogger(__name__)
+
 def create_client() -> Client:
     try:
-        userBot = Client(
+        client = Client(
             'user',
             api_id=TG_CONFIG.api_id,
             api_hash=TG_CONFIG.api_hash,
@@ -32,10 +34,10 @@ def create_client() -> Client:
         logging.info("Client created successfully")
         
         # Get the bot's information
-        user: User = userBot.get_me()
+        user: User = client.get_me()
         TG_CONFIG.premium = user.is_premium
         
-        return userBot
+        return client
     except RPCError as e:
         logging.error(f"Failed making client from USER_SESSION_STRING ({TG_CONFIG.stringhi}): {e}")
         return None
@@ -44,7 +46,7 @@ def create_client() -> Client:
         TG_CONFIG.premium = False
         return None
 
-def main():
+def main() -> Client:
     if TG_CONFIG.stringhi:
         userBot = create_client()
         if userBot:
@@ -66,10 +68,29 @@ def main():
                 message.reply("You sent: " + message.text)
 
             userBot.run()
+            return userBot
         else:
             logging.error("Bot is not running")
+            return None
     else:
         logging.error("USER_SESSION_STRING is empty")
+        return None
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    userBot = main()
+    if userBot:
+        try:
+            with userBot:
+                userBot.send_message(
+                    chat_id=-1001946386363,
+                    text="Bot booted with Premium Account,\n\n  Thanks for using <a href='https://github.com/yashoswalyo/merge-bot'>this repo</a>",
+                    disable_web_page_preview=True,
+                )
+                user = userBot.get_me()
+                TG_CONFIG.premium = user.is_premium
+        except Exception as err:
+            logging.error(f"{err}")
+            TG_CONFIG.premium = False
+            pass
+    else:
+        logging.error("Client Not running")
