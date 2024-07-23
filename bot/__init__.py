@@ -34,8 +34,8 @@ def create_client() -> Client:
         logging.info("Client created successfully")
         
         # Get the bot's information
-        user: User = client.get_me()
-        TG_CONFIG.premium = user.is_premium
+       # user: User = client.get_me()
+        #TG_CONFIG.premium = user.is_premium
         
         return client
     except RPCError as e:
@@ -43,7 +43,7 @@ def create_client() -> Client:
         return None
     except Exception as err:
         logging.error(f"An error occurred: {err}")
-        TG_CONFIG.premium = False
+        
         return None
 
 def main() -> Client:
