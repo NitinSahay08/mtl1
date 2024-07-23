@@ -147,7 +147,7 @@ async def main():
 
 async def bot():
     LOGGER.info("Logging in...")
-    if not TG_CONFIG.Stringhi:  # Check for both None and empty string
+    if not TG_CONFIG.stringhi:  # Check for both None and empty string
         LOGGER.warning("No User Session, Default Bot session will be used")
         userBot = None
     else:
