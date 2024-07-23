@@ -3,6 +3,7 @@ from bot.config import TG_CONFIG
 import pyrogram
 
 import logging
+
 logging.basicConfig(
     format="[%(asctime)s] [%(levelname)s] - %(message)s",
     datefmt="%d-%b-%y %I:%M:%S %p",
