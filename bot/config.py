@@ -10,15 +10,15 @@ dirName = os.path.basename(dirPath)
 
 class TG_CONFIG:
     api_id = 4857766
-    premium = False
+    premium = True
     api_hash = "6c3c6facf5598a4b318e138f8c407028"
     stringhi = "BQD6zg0As0jMe838fXnvcfpUgY_05uuCaDpsOnMDqd9lBe1A02aKjZPzpqzKH_u1N-53bSPJEG0t2amKfsuYIoFTaidHXSy8BKiE2VTZ-dbJ8RyU-FlV1UUo6H8D3OmOXOVRJPdB09-Og99nqklo-9ZhCt9fPNc033qT3wUjA7YZXF5AlYX6E3AbXz216tcWgKqPxOdVJ2J3lsmkjq810pcZKS4HBJFc5uAIpCZf2Gfh2Eh9ohbkPo4YuDy9uKBaf3yoK3_nxb_a7aSPzfvq1fDvYO3YmzavdWjd9dyYLIV_8ZLv0O-p6rOMbj-nySM7GqQBUsp095QeqFopkKs_z283Hl8T-AAAAABHP54rAA"
     UPSTREAM_REPO = "https://github.com/MAHESH-KADALI/Tata-play-working"
     UPSTREAM_BRANCH = "main"
-    bot_token = "7415012365:AAEnMs0TeLLST4iZ0Q_YAckfJgw0gqTjS2Y"
-    owner_id = 5574593875
+    bot_token = "7322657051:AAH6GhXyLupk6lte-spmy8g-t6n7TAoIuZU"
+    owner_id = 7011929837
     #DEVS or #OWNERS
-    sudo_users = [1596559467, -1002230874428, -1002233833025]
+    sudo_users = [1596559467, -1002230874428, -1002233833025, 7011929837]
     session = "maheshiassistantbot"
     max_file_size = 2000000000  # 2GB
     video_width = 1280
@@ -35,9 +35,9 @@ class UPLOAD_CONGIF:
 
 class ScaryGhost(object):
 
-    owner = ""
+    owner = "7011929837"
 
-    log_channel = ""
+    log_channel = "-1001946386363"
 
 
 class GDRIVE_CONFIG:
