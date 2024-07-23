@@ -3,7 +3,7 @@ import time
 from pyrogram.types import CallbackQuery
 from bot.helpers.utils import humanbytes, get_duration, get_thumbnail, progress_for_pyrogram
 from bot.config import TG_CONFIG
-from bot.__init__ import user as userBot
+from bot.base import client as userBot
 
 FILE_SIZE_LIMIT = 2 * (1024 ** 3)
 
