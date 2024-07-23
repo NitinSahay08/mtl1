@@ -160,7 +160,7 @@ async def bot():
     LOGGER.info("Logged in successfully!")
     return userBot
 
-userBot = asyncio.run(bot())
+#userBot = asyncio.run(bot())
 
 if __name__ == "__main__":
 
