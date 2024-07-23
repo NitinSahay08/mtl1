@@ -89,4 +89,4 @@ def send_boot_message(client: Client):
 
 if __name__ == "__main__":
 
-    
+    main()    
